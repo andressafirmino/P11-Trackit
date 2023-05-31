@@ -27,8 +27,8 @@ export default function Habits() {
                         {days.map(d => <Days key={d.id} day={d.day} />)}
                     </div>
                     <Click>
-                        <p>Cancelar</p>
-                        <button><p>Salvar</p></button>
+                        <Cancel>Cancelar</Cancel>
+                        <Save><p>Salvar</p></Save>
                     </Click>
                 </BoxAdd>
                 <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
@@ -114,8 +114,9 @@ const Click = styled.div`
     justify-content: flex-end;
     align-items: center;
     margin-top: 29px;
-    button {
-        width: 84px;
+`
+const Save = styled.button `
+width: 84px;
         height: 35px;
         background-color: #52B6FF;
         border: none;
@@ -129,10 +130,9 @@ const Click = styled.div`
             font-weight: 400;
             color: #FFFFFF;
         }
-    }
-    p {
-        font-size: 16px;
+`
+const Cancel = styled.p `
+     font-size: 16px;
         font-weight: 400;
         color: #52B6FF;
-    }
 `
