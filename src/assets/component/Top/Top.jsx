@@ -12,6 +12,7 @@ export default function Top() {
 
 
 const ContainerTop = styled.div`
+    width: 100%;
     height: 70px;
     background-color: #126BA5;
     position: fixed;

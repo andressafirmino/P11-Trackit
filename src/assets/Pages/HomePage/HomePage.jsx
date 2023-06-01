@@ -21,7 +21,10 @@ export default function HomePage() {
 
         const promise = axios.post(URL, login);
         setDisabled(true);
-        promise.then( () => navigate('/hoje'));
+        promise.then( response => {
+            console.log(response.data);
+            navigate('/hoje');
+        });
         
         promise.catch( erro => {
             alert(erro.response.data.message)
