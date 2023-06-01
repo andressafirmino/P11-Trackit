@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Link, Form, useNavigate} from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import Logo from "../../Image/Logo.png"
 import { useState } from "react"
 import axios from "axios"
@@ -17,17 +17,12 @@ export default function Register() {
     function signUp(e) {
         e.preventDefault();
 
-        console.log(email);
-        console.log(password);
-        console.log(name);
-        console.log(image);
-
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
         const newSignUp = {email, name, image, password};
 
         const promise = axios.post(URL, newSignUp);
         setDisabled(true);
-        setTimeout(promise.then( () => navigate('/')), 5000);
+        promise.then( () => navigate('/'));
         console.log(disabled);
         
         promise.catch( erro => {
