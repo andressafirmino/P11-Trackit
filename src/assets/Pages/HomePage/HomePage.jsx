@@ -36,9 +36,9 @@ export default function HomePage() {
         <Container>
             <img src={Logo} />
             <FormContainer onSubmit={login}>
-                <input type='email' placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled}/>
-                <input type='password' placeholder="senha" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={disabled}/>
-                <button type='submit' disabled={disabled}>
+                <input type='email' placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email-input"/>
+                <input type='password' placeholder="senha" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={disabled} data-test="password-input"/>
+                <button type='submit' disabled={disabled} data-test="login-btn">
                 {disabled ? (
                         <ThreeDots width={32} height={21} border-radius={4.5} background-color= "#52B6FF" color="#FFFFFF" font-size={9}/>
                     ) : (
@@ -46,7 +46,7 @@ export default function HomePage() {
                     )}
                     </button>
             </FormContainer>
-            <LinkRegister to="/cadastro"><p>Não tem uma conta? Cadastre-se!</p></LinkRegister>
+            <LinkRegister to="/cadastro" data-test="signup-link"><p>Não tem uma conta? Cadastre-se!</p></LinkRegister>
         </Container>
     )
 }

@@ -2,49 +2,69 @@ import styled from "styled-components"
 import Top from "../../component/Top/Top"
 import Footer from "../../component/Footer/Footer"
 import Days from "../../component/Days/Days"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Habits() {
-    const days = [
-        { day: 'D', id: 1 },
-        { day: 'S', id: 2 },
-        { day: 'T', id: 3 },
-        { day: 'Q', id: 4 },
-        { day: 'Q', id: 5 },
-        { day: 'S', id: 6 },
-        { day: "S", id: 7 }
-    ]
-    const [disabled, setDisabled] = useState(false);
+ 
+    const [select, setSelect] = useState([
+        { day: 'D', id: 1, status: false},
+        { day: 'S', id: 2, status: false },
+        { day: 'T', id: 3, status: false },
+        { day: 'Q', id: 4, status: false },
+        { day: 'Q', id: 5, status: false },
+        { day: 'S', id: 6, status: false },
+        { day: "S", id: 7, status: false }
+    ]);
+
+    
     const [print, setPrint] = useState(
         <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
     )
 
-    function unclick() {
-        setDisabled(false);
+ 
+
+    function unclick(id) {
+        console.log('até aqui foi');
+        const updatedSelect = select.filter(item => item.id !== id);
+        setSelect(updatedSelect);
+       
     }
-    function click() {
-        setDisabled(true);
+    function click(id) {
+        const updatedSelect = select.map((item) => {
+            if (item.id === id) {
+              return { ...item, status: !item.status};
+            }
+            return item;
+        });
+        setSelect(updatedSelect);
     }
+      
+    console.log(select);
     function create() {
+
+        
         setPrint(
             <>
                 <BoxAdd>
                     <input type="text" placeholder="nome do hábito" />
-
-                    {days.map(d => {
-                        {
-                            disabled ? (
-                                <Gray>
-                                    <Days key={d.id} day={d.day} onClick={unclick} disabled={disabled} />
-                                </Gray>
-                            ) : (
-                                <White>
-                                    <Days key={d.id} day={d.day} onClick={click} disabled={disabled} />
-                                </White>
-                            )
-                        }
-                    })}
-
+                    <Word>
+                        {select.map(day => {
+                            if ( day.status === false) {
+                                return (
+                                    <WordUnclick key={day.id} onClick={() => click(day.id)} >
+                                        <p>{day.day}</p>
+                                    </WordUnclick>
+                                    
+                                )
+                            } else {
+                                return (
+                                    <WordClick key={day.id} onClick={() => unclick(day.id)} >
+                                       <p>{day.day}</p>
+                                    </WordClick>
+                                )
+                            }
+                        })}
+                    </Word>
                     <Click>
                         <CancelButton>Cancelar</CancelButton>
                         <SaveButton><p>Salvar</p></SaveButton>
@@ -137,9 +157,7 @@ const BoxAdd = styled.div`
         }
     }
     div {
-        width: calc(100vw - 80px);
-        display: flex;
-        justify-content: flex-start;
+        width:  calc(100vw - 80px);
     }
 `
 const Click = styled.div`
@@ -175,11 +193,38 @@ const CancelButton = styled.button`
     padding: 0;
     margin: 0;
 `
-const White = styled.div`
-    background-color: #FFFFFF;
-    color: #D4D4D4;
+
+const Word = styled.div `
+    width: calc(100vw -80px);
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 auto;
+    button {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 4px;
+        p {
+            font-size: 20px;
+            font-weight: 400;
+        }
+    }
 `
-const Gray = styled.div`
-    background-color: #D4D4D4;
-    color: #FFFFFF;
+const WordClick = styled.button`
+    background-color: #CFCFCF;
+    border: 1px solid #CFCFCF;
+    p {
+        color: #FFFFFF;
+    }
+`
+const WordUnclick = styled.button`
+    background-color: #FFFFFF;
+    border: 1px solid #D4D4D4;
+    p {
+        color: #DBDBDB;
+    }
 `

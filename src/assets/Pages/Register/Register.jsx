@@ -34,11 +34,11 @@ export default function Register() {
         <Container>
             <img src={Logo} />
             <FormContainer onSubmit={signUp}>
-                <input type='email' placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled}/>
-                <input type='password' placeholder="senha" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={disabled}/>
-                <input type='text' placeholder="nome" required value={name} onChange={(e) => setName(e.target.value)} disabled={disabled}/>
-                <input type='url' placeholder="foto" required value={image} onChange={(e) => setImage(e.target.value)} disabled={disabled}/>
-                <button type='submit' disabled={disabled}>
+                <input type='email' placeholder="email" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} data-test="email-input"/>
+                <input type='password' placeholder="senha" required value={password} onChange={(e) => setPassword(e.target.value)} disabled={disabled} data-test="password-input"/>
+                <input type='text' placeholder="nome" required value={name} onChange={(e) => setName(e.target.value)} disabled={disabled} data-test="user-name-input"/>
+                <input type='url' placeholder="foto" required value={image} onChange={(e) => setImage(e.target.value)} disabled={disabled} data-test="user-image-input"/>
+                <button type='submit' disabled={disabled} data-test="signup-btn">
                     {disabled ? (
                         <ThreeDots width={32} height={21} border-radius={4.5} background-color= "#52B6FF" color="#FFFFFF" font-size={9}/>
                     ) : (
@@ -48,7 +48,7 @@ export default function Register() {
                 
             </FormContainer>
             
-            <LinkRegister to="/"><p>Já tem conta? Faça login!</p></LinkRegister>
+            <LinkRegister to="/" data-test="login-link"><p>Já tem conta? Faça login!</p></LinkRegister>
         </Container>
 
     )
