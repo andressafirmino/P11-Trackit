@@ -61,15 +61,15 @@ export default function Habits(props) {
     // }
     return (
         <>
-            <Top />
+            <Top data-test="header"/>
             <ContainerHabits>
                 <AddHabits>
                     <Title>Meus hábitos</Title>
-                    <ButtonAdd onClick={() => create()}><p>+</p></ButtonAdd>
+                    <ButtonAdd onClick={() => create()} data-test="habit-create-btn"><p>+</p></ButtonAdd>
                 </AddHabits>
-                <BoxAdd onSubmit={send}>
+                <BoxAdd onSubmit={send} data-test="habit-create-container">
                     <input type="text" placeholder="nome do hábito" value={name}
-                        onChange={(e) => setName(e.target.value)}/>
+                        onChange={(e) => setName(e.target.value)} data-test="habit-name-input"/>
                     <Word>
                         {days.map((day, i) => {
                             if (select.includes(i) === false) {
@@ -91,13 +91,13 @@ export default function Habits(props) {
 
                     <Click>
                         <CancelButton>Cancelar</CancelButton>
-                        <SaveButton type='submit'><p>Salvar</p></SaveButton>
+                        <SaveButton type='submit' data-test="habit-create-save-btn"><p>Salvar</p></SaveButton>
                     </Click>
                 </BoxAdd>
                 <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
                 
             </ContainerHabits>
-            <Footer />
+            <Footer data-test="menu"/>
         </>
     )
 }

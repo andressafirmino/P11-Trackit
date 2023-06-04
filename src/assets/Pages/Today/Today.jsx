@@ -12,8 +12,9 @@ export default function Today() {
 
     const [habs, setHabs] = useState([]);
     const [day, setDay] = useState(dayjs().locale('pt-br').format('dddd,DD/MM'));
-   
+    const [counter, setCounter] = useState(0);
 
+    console.log(counter);
 
     useEffect ( () => {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today';
@@ -32,16 +33,23 @@ export default function Today() {
     } , []);
     return (
         <>
-            <Top />
+            <Top data-test="header"/>
             <ContainerToday>
-                <p className="first-paragraph">{day}</p>
+                <p className="first-paragraph" data-test="today">{day}</p>
                 <p className="second-paragraph">Nenhum hábito concluído</p>
                     {habs.map(hab => 
-                        <Progression key={hab.id} name={hab.name} currentSequence={hab.currentSequence} highestSequence={hab.highestSequence} done={hab.done} id={hab.id}/>
+                        <Progression key={hab.id} 
+                        name={hab.name} 
+                        currentSequence={hab.currentSequence} 
+                        highestSequence={hab.highestSequence} 
+                        done={hab.done} 
+                        id={hab.id} 
+                        counter={counter} 
+                        setCounter={setCounter}/>
                     )}
             </ContainerToday>
 
-            <Footer />
+            <Footer data-test="menu"/>
         </>
     )
 }
