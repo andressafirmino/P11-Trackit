@@ -61,7 +61,7 @@ export default function Habits(props) {
     // }
     return (
         <>
-            <Top data-test="header"/>
+            <Top />
             <ContainerHabits>
                 <AddHabits>
                     <Title>Meus hábitos</Title>
@@ -97,7 +97,7 @@ export default function Habits(props) {
                 <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
                 
             </ContainerHabits>
-            <Footer data-test="menu"/>
+            <Footer />
         </>
     )
 }

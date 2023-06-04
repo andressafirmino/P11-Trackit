@@ -5,12 +5,12 @@ import Footer from "../../component/Footer/Footer";
 export default function Historic() {
     return (
         <>
-            <Top data-test="header"/>
+            <Top />
             <ContainerHistoric>
                 <Title>Histórico</Title>
                 <Text>Em breve você poderá ver o histórico dos seus hábitos aqui!</Text>
             </ContainerHistoric>
-            <Footer data-test="menu"/>
+            <Footer />
         </>
     );
 }

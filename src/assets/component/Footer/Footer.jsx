@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
     return (
-        <ContainerFooter>
+        <ContainerFooter data-test="menu">
             <Link to='/habitos' data-test="habit-link">Hábitos</Link>
             <Link to='/hoje' data-test="today-link"><img src={Circle} /></Link>
             <Link to='/historico' data-test="history-link">Histórico</Link>

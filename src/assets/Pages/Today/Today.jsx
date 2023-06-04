@@ -16,7 +16,7 @@ export default function Today() {
 
     console.log(counter);
 
-    useEffect ( () => {
+    useEffect(() => {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today';
         const settings = {
             headers: {
@@ -30,26 +30,28 @@ export default function Today() {
             setHabs(habToday);
         });
         promise.catch(erro => alert(erro.response));
-    } , []);
+    }, []);
     return (
         <>
-            <Top data-test="header"/>
+            <Top />
             <ContainerToday>
                 <p className="first-paragraph" data-test="today">{day}</p>
                 <p className="second-paragraph">Nenhum hábito concluído</p>
-                    {habs.map(hab => 
-                        <Progression key={hab.id} 
-                        name={hab.name} 
-                        currentSequence={hab.currentSequence} 
-                        highestSequence={hab.highestSequence} 
-                        done={hab.done} 
-                        id={hab.id} 
-                        counter={counter} 
-                        setCounter={setCounter}/>
-                    )}
+                {habs.map(hab =>
+                    <Box data-test="today-habit-container">
+                        <Progression key={hab.id}
+                            name={hab.name}
+                            currentSequence={hab.currentSequence}
+                            highestSequence={hab.highestSequence}
+                            done={hab.done}
+                            id={hab.id}
+                            counter={counter}
+                            setCounter={setCounter} />
+                    </Box>
+                )}
             </ContainerToday>
 
-            <Footer data-test="menu"/>
+            <Footer  />
         </>
     )
 }
@@ -70,4 +72,16 @@ const ContainerToday = styled.div`
         color: #BABABA;
     }
     
+`
+const Box = styled.div`
+    width: 340px;
+    height: 94px;
+    background-color: #FFFFFF; 
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 28px;
+    position: relative;
+    div {
+        display: flex;
+    }
 `

@@ -43,55 +43,44 @@ export default function Progression(props) {
 
     if (currentSequence === highestSequence && currentSequence > 0) {
         return (
-            <Box data-test="today-habit-container">
+            <>
                 <Title data-test="today-habit-name">{name}</Title>
                 <div data-test="today-habit-sequence"><Text>Sequência atual: </Text><TextCheckIn>{currentSequence} {countCurrent}</TextCheckIn></div>
                 <div data-test="today-habit-record"><Text>Seu recorde: </Text><TextCheckIn>{highestSequence} {countHighest}</TextCheckIn></div>
                 <CheckIn onClick={uncheck} data-test="today-habit-check-btn">
                     <img src={vector} />
                 </CheckIn>
-            </Box>
+            </>
         )
     }
 
     if (done) {
         return (
-            <Box data-test="today-habit-container">
+            <>
                 <Title data-test="today-habit-name">{name}</Title>
                 <div data-test="today-habit-sequence"><Text>Sequência atual: </Text><TextCheckIn>{currentSequence} {countCurrent}</TextCheckIn></div>
                 <Text data-test="today-habit-record">Seu recorde: {highestSequence} {countHighest}</Text>
                 <CheckIn onClick={uncheck} data-test="today-habit-check-btn">
                     <img src={vector} />
                 </CheckIn>
-            </Box>
+            </>
         )
     } else {
         return (
-            <Box data-test="today-habit-container">
+            <>
                 <Title data-test="today-habit-name">{name}</Title>
                 <Text data-test="today-habit-sequence">Sequência atual: {currentSequence} {countCurrent} </Text>
                 <Text data-test="today-habit-record">Seu recorde: {highestSequence} {countHighest}</Text>
                 <Check onClick={check} data-test="today-habit-check-btn">
                     <img src={vector} />
                 </Check>
-            </Box>
+            </>
         )
     }
 
 }
 
-const Box = styled.div`
-    width: 340px;
-    height: 94px;
-    background-color: #FFFFFF; 
-    border-radius: 5px;
-    padding: 15px;
-    margin-top: 28px;
-    position: relative;
-    div {
-        display: flex;
-    }
-`
+
 const Title = styled.p`
     font-size: 20px;
     font-weight: 400;
