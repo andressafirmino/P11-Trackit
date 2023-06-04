@@ -1,12 +1,15 @@
 import styled from "styled-components"
 import { Link, useNavigate} from "react-router-dom"
 import Logo from "../../Image/Logo.png"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner";
+import { AuthContext } from "../../contexts/auth"
+
 
 export default function Register() {
 
+    const {URL} = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
@@ -17,13 +20,12 @@ export default function Register() {
     function signUp(e) {
         e.preventDefault();
 
-        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
+        const url = `${URL}/auth/sign-up`;
         const newSignUp = {email, name, image, password};
 
-        const promise = axios.post(URL, newSignUp);
+        const promise = axios.post(url, newSignUp);
         setDisabled(true);
         promise.then( () => navigate('/'));
-        console.log(disabled);
         
         promise.catch( erro => {
             alert(erro.response.data.message)

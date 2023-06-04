@@ -2,20 +2,24 @@ import styled from "styled-components"
 import Top from "../../component/Top/Top"
 import Footer from "../../component/Footer/Footer"
 import Days from "../../component/Days/Days"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
+import { AuthContext } from "../../contexts/auth"
 
+export default function Habits() {
 
-export default function Habits(props) {
-
-    const {token, setToken} = props;
-    console.log(token);
+    const { token, URL } = useContext(AuthContext);
     const [print, setPrint] = useState(
-        <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
+        <BoxAdd>
+            <Word>
+                <button></button>
+            </Word>
+        </BoxAdd>
     )
     const [days, setDays] = useState(["D", "S", "T", "Q", "Q", "S", "S"]);
     const [select, setSelect] = useState([]);
     const [name, setName] = useState('');
+    const [habits, setHabits] = useState(0);
 
     console.log(select);
 
@@ -23,19 +27,69 @@ export default function Habits(props) {
         setSelect((prevSelect) => prevSelect.filter((item) => item !== index));
     }
     function click(i) {
-        console.log(i);
         if (!select.includes(i)) {
             return setSelect((prevSelect) => [...prevSelect, i]);
-          }
-        
+        }
+
     }
 
+    function render() {
+        if (habits.length === 0) {
+            return (setPrint(
+                <>
+                    <Top />
+                    <ContainerHabits>
+                        <AddHabits>
+                            <Title>Meus hábitos</Title>
+                            <ButtonAdd onClick={() => create()} data-test="habit-create-btn"><p>+</p></ButtonAdd>
+                        </AddHabits>
+                        <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
+    
+                    </ContainerHabits>
+                    <Footer />
+                </>
+            ))
+        }
+
+        if(habits.length > 0) {
+            return (setPrint(
+                <>
+                    <Top />
+                    <ContainerHabits>
+                        <AddHabits>
+                            <Title>Meus hábitos</Title>
+                            <ButtonAdd onClick={() => create()} data-test="habit-create-btn"><p>+</p></ButtonAdd>
+                        </AddHabits>
+                        <h1>é isso</h1>
+                        </ContainerHabits>
+                    <Footer />
+                </>
+            ))
+        }
+    }
+
+    useEffect(() => {
+        const url = `${URL}/habits`;
+        const settings = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const promise = axios.get(url, settings);
+        promise.then(response => {
+            let habits_length = response.data.length;
+            setHabits(habits_length)
+            console.log(response.data);
+            render();
+        });
+        promise.catch(erro => console.log('não foi'));
+    }, []);
     function send(e) {
         e.preventDefault();
         console.log('foi');
         console.log(select);
         const create = {
-            name: name, 
+            name: name,
             days: select
         }
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits';
@@ -45,60 +99,41 @@ export default function Habits(props) {
             }
         }
 
-        const promise = axios.post(URL, create,  settings);
+        const promise = axios.post(URL, create, settings);
         promise.then(() => console.log('foi'));
         promise.catch(() => console.log('não foi'));
 
 
     }
+
+    
+    
+
+
+
     // function create() {
     //     console.log(select);
     //     return (setPrint(
     //         <>
-                
+
     //         </>
     //     ))
     // }
-    return (
+    return ( 
+
+    
         <>
-            <Top />
-            <ContainerHabits>
-                <AddHabits>
-                    <Title>Meus hábitos</Title>
-                    <ButtonAdd onClick={() => create()} data-test="habit-create-btn"><p>+</p></ButtonAdd>
-                </AddHabits>
-                <BoxAdd onSubmit={send} data-test="habit-create-container">
-                    <input type="text" placeholder="nome do hábito" value={name}
-                        onChange={(e) => setName(e.target.value)} data-test="habit-name-input"/>
-                    <Word>
-                        {days.map((day, i) => {
-                            if (select.includes(i) === false) {
-                                return (
-                                    <button type='button' key={i} onClick={() => click(i)}>
-                                        {day}
-                                    </button>
-                                )
-                            } else {
-                                return (
-                                    <IsSelect type='button' key={i} onClick={() => unclick(i)}>
-                                        {day}
-                                    </IsSelect>
-                                )
-                            }
+                <Top />
+                <ContainerHabits>
+                    <AddHabits>
+                        <Title>Meus hábitos</Title>
+                        <ButtonAdd onClick={() => create()} data-test="habit-create-btn"><p>+</p></ButtonAdd>
+                    </AddHabits>
+                    {print}
 
-                        })}
-                    </Word>
-
-                    <Click>
-                        <CancelButton>Cancelar</CancelButton>
-                        <SaveButton type='submit' data-test="habit-create-save-btn"><p>Salvar</p></SaveButton>
-                    </Click>
-                </BoxAdd>
-                <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
-                
-            </ContainerHabits>
-            <Footer />
-        </>
+                </ContainerHabits>
+                <Footer />
+            </>
     )
 }
 
@@ -230,7 +265,7 @@ const Word = styled.div`
         
     }
 `
-const IsSelect = styled.button `
+const IsSelect = styled.button`
     background-color: #CFCFCF;
     color: #FFFFFF;
 `

@@ -5,21 +5,23 @@ import Today from "./Pages/Today/Today";
 import Historic from "./Pages/Historic/Historic";
 import Habits from "./Pages/Habits/Habits";
 import { useState } from "react";
+import AuthProvider from "./contexts/auth";
+
 
 
 export default function App() {
-   
-    const [token, setToken] = useState('');
+
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<HomePage token={token} setToken={setToken}/>}></Route>
-                <Route path='/cadastro' element={<Register />}></Route>
-                <Route path='/hoje' element={<Today />}></Route>
-                <Route path='/historico' element={<Historic />}></Route>
-                <Route path='/habitos' element={<Habits token={token} setToken={setToken}/> } ></Route>
-            </Routes>
-            
+            <AuthProvider>
+                <Routes>
+                    <Route path='/' element={<HomePage />}></Route>
+                    <Route path='/cadastro' element={<Register />}></Route>
+                    <Route path='/hoje' element={<Today />}></Route>
+                    <Route path='/historico' element={<Historic />}></Route>
+                    <Route path='/habitos' element={<Habits />} ></Route>
+                </Routes>
+            </AuthProvider>
         </BrowserRouter>
     )
 }

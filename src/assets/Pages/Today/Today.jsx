@@ -2,35 +2,43 @@ import Footer from "../../component/Footer/Footer";
 import Top from "../../component/Top/Top";
 import styled from "styled-components";
 import Progression from "./Progression";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios"
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
+import { useNavigate } from "react-router-dom";
+import {AuthContext} from "../../contexts/auth";
 
 
 export default function Today() {
 
+    const {URL, token, update} = useContext(AuthContext);
     const [habs, setHabs] = useState([]);
     const [day, setDay] = useState(dayjs().locale('pt-br').format('dddd,DD/MM'));
-    const [counter, setCounter] = useState(0);
-
-    console.log(counter);
+    const [countCurrent, setCountCurrent] = useState('dia');
+    const [countHighest, setCountHiguest] = useState('dia');
+    const navigate = useNavigate();
+    
 
     useEffect(() => {
-        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today';
+
+        const url = `${URL}/habits/today`;
         const settings = {
             headers: {
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTI1MSwiaWF0IjoxNjg1NTg0MTE1fQ.JqrkGOuJYYxD8YbTafpybcKlLUfi58gYMBlKO1ddx5M'
+                Authorization: `Bearer ${token}`
             }
         }
-        const promise = axios.get(URL, settings);
+        const promise = axios.get(url, settings);
         promise.then(response => {
             console.log(response.data);
             let habToday = response.data;
             setHabs(habToday);
+            navigate('/hoje');
         });
         promise.catch(erro => alert(erro.response));
-    }, []);
+    }, [update]);
+        
+    
     return (
         <>
             <Top />
@@ -38,15 +46,18 @@ export default function Today() {
                 <p className="first-paragraph" data-test="today">{day}</p>
                 <p className="second-paragraph">Nenhum hábito concluído</p>
                 {habs.map(hab =>
-                    <Box data-test="today-habit-container">
-                        <Progression key={hab.id}
+                    <Box key={hab.id} data-test="today-habit-container">
+                        <Progression 
                             name={hab.name}
                             currentSequence={hab.currentSequence}
                             highestSequence={hab.highestSequence}
                             done={hab.done}
                             id={hab.id}
-                            counter={counter}
-                            setCounter={setCounter} />
+                            countCurrent={countCurrent}
+                            setCountCurrent={setCountCurrent}
+                            countHighest={countHighest}
+                            setCountHiguest={setCountHiguest}
+                            />
                     </Box>
                 )}
             </ContainerToday>

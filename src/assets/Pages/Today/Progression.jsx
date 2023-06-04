@@ -1,13 +1,19 @@
 import axios from "axios";
 import styled from "styled-components";
 import vector from "../../Image/Vector.png";
-import { useState } from "react";
+import { useContext} from "react";
+import {AuthContext} from "../../contexts/auth";
+import { useNavigate } from "react-router-dom";
+
 
 
 export default function Progression(props) {
-    const { name, currentSequence, highestSequence, done, id, counter, setCounter } = props;
-    const [countCurrent, setCountCurrent] = useState('dia');
-    const [countHighest, setCountHiguest] = useState('dia');
+                            
+    const { name, currentSequence, highestSequence, done, id, 
+        counter, setCounter, countCurrent, setCountCurrent,
+        countHighest, setCountHiguest} = props;
+    const {URL, token, setUpdate} = useContext(AuthContext);
+    const navigate = useNavigate();
     if (countCurrent <= 1) {
         setCountCurrent('dias');
     }
@@ -15,33 +21,30 @@ export default function Progression(props) {
         setCountHiguest('dias');
     }
     function uncheck() {
-        console.log('foi');
-        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`;
+        const url = `${URL}/habits/${id}/uncheck`;
         const settings = {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTI1MSwiaWF0IjoxNjg1NTg0MTE1fQ.JqrkGOuJYYxD8YbTafpybcKlLUfi58gYMBlKO1ddx5M`
+                Authorization: `Bearer ${token}`
             }
         }
-        const promise = axios.post(URL, null, settings);
-        promise.then(response => console.log(response));
+        const promise = axios.post(url, id, settings);
+        promise.then(() => navigate('/hoje'));
         promise.catch(() => alert(erro.response.data.message));
-        setCounter(counter = counter - 1);
+        
     }
     function check() {
-        console.log('foi');
-        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
+        const url = `${URL}/habits/${id}/check`;
         const settings = {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTI1MSwiaWF0IjoxNjg1NTg0MTE1fQ.JqrkGOuJYYxD8YbTafpybcKlLUfi58gYMBlKO1ddx5M`
+                Authorization: `Bearer ${token}`
             }
         }
-        const promise = axios.post(URL, null, settings);
-        promise.then(response => console.log(response));
+        const promise = axios.post(url, id, settings);
+        promise.then(() => navigate('/hoje'));
         promise.catch(() => alert(erro.response.data.message));
-        setCounter(counter => counter + 1);
     }
 
-    if (currentSequence === highestSequence && currentSequence > 0) {
+    if (done === true && currentSequence === highestSequence && currentSequence > 0) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>
@@ -50,6 +53,17 @@ export default function Progression(props) {
                 <CheckIn onClick={uncheck} data-test="today-habit-check-btn">
                     <img src={vector} />
                 </CheckIn>
+            </>
+        )
+    } else if(done === false && currentSequence === highestSequence && currentSequence > 0) {
+        return (
+            <>
+                <Title data-test="today-habit-name">{name}</Title>
+                <div data-test="today-habit-sequence"><Text>Sequência atual: </Text><TextCheckIn>{currentSequence} {countCurrent}</TextCheckIn></div>
+                <div data-test="today-habit-record"><Text>Seu recorde: </Text><TextCheckIn>{highestSequence} {countHighest}</TextCheckIn></div>
+                <Check onClick={check} data-test="today-habit-check-btn">
+                    <img src={vector} />
+                </Check>
             </>
         )
     }

@@ -2,13 +2,14 @@
 import Logo from "../../Image/Logo.png";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner";
+import { AuthContext } from "../../contexts/auth";
 
-export default function HomePage(props) {
+export default function HomePage() {
 
-    const {token, setToken} = props;
+    const {setToken, setImage, URL} = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -17,14 +18,15 @@ export default function HomePage(props) {
     function login(e) {
         e.preventDefault();
 
-        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login';
+        const url = `${URL}/auth/login`;
         const login = {email, password};
 
-        const promise = axios.post(URL, login);
+        const promise = axios.post(url, login);
         setDisabled(true);
         promise.then( response => {
-            console.log(response.data);
             setToken(response.data.token);
+            console.log(response.data.token);
+            setImage(response.data.image);
             navigate('/hoje');
         });
         
@@ -128,7 +130,7 @@ const LinkSignUp = styled(Link)`
         justify-content: center;
         align-items: center;
         margin-bottom: 25px;
-            text-decoration: none;
+        text-decoration: none;
         p {
             font-size: 21px;
             font-weight: 400;
