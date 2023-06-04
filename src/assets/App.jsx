@@ -8,15 +8,16 @@ import { useState } from "react";
 
 
 export default function App() {
-    
+   
+    const [token, setToken] = useState('');
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<HomePage />}></Route>
+                <Route path='/' element={<HomePage token={token} setToken={setToken}/>}></Route>
                 <Route path='/cadastro' element={<Register />}></Route>
                 <Route path='/hoje' element={<Today />}></Route>
                 <Route path='/historico' element={<Historic />}></Route>
-                <Route path='/habitos' element={<Habits /> } ></Route>
+                <Route path='/habitos' element={<Habits token={token} setToken={setToken}/> } ></Route>
             </Routes>
             
         </BrowserRouter>

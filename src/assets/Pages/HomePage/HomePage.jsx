@@ -6,8 +6,9 @@ import { useState } from "react";
 import axios from "axios"
 import { ThreeDots } from "react-loader-spinner";
 
-export default function HomePage() {
+export default function HomePage(props) {
 
+    const {token, setToken} = props;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -23,6 +24,7 @@ export default function HomePage() {
         setDisabled(true);
         promise.then( response => {
             console.log(response.data);
+            setToken(response.data.token);
             navigate('/hoje');
         });
         

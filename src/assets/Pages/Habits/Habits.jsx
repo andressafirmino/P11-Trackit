@@ -3,86 +3,99 @@ import Top from "../../component/Top/Top"
 import Footer from "../../component/Footer/Footer"
 import Days from "../../component/Days/Days"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
-export default function Habits() {
- 
-    const [select, setSelect] = useState([
-        { day: 'D', id: 1, status: false},
-        { day: 'S', id: 2, status: false },
-        { day: 'T', id: 3, status: false },
-        { day: 'Q', id: 4, status: false },
-        { day: 'Q', id: 5, status: false },
-        { day: 'S', id: 6, status: false },
-        { day: "S", id: 7, status: false }
-    ]);
 
-    
+export default function Habits(props) {
+
+    const {token, setToken} = props;
+    console.log(token);
     const [print, setPrint] = useState(
         <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
     )
+    const [days, setDays] = useState(["D", "S", "T", "Q", "Q", "S", "S"]);
+    const [select, setSelect] = useState([]);
+    const [name, setName] = useState('');
 
- 
-
-    function unclick(id) {
-        console.log('até aqui foi');
-        const updatedSelect = select.filter(item => item.id !== id);
-        setSelect(updatedSelect);
-       
-    }
-    function click(id) {
-        const updatedSelect = select.map((item) => {
-            if (item.id === id) {
-              return { ...item, status: !item.status};
-            }
-            return item;
-        });
-        setSelect(updatedSelect);
-    }
-      
     console.log(select);
-    function create() {
 
-        
-        setPrint(
-            <>
-                <BoxAdd>
-                    <input type="text" placeholder="nome do hábito" />
-                    <Word>
-                        {select.map(day => {
-                            if ( day.status === false) {
-                                return (
-                                    <WordUnclick key={day.id} onClick={() => click(day.id)} >
-                                        <p>{day.day}</p>
-                                    </WordUnclick>
-                                    
-                                )
-                            } else {
-                                return (
-                                    <WordClick key={day.id} onClick={() => unclick(day.id)} >
-                                       <p>{day.day}</p>
-                                    </WordClick>
-                                )
-                            }
-                        })}
-                    </Word>
-                    <Click>
-                        <CancelButton>Cancelar</CancelButton>
-                        <SaveButton><p>Salvar</p></SaveButton>
-                    </Click>
-                </BoxAdd>
-                <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
-            </>
-        )
+    function unclick(index) {
+        setSelect((prevSelect) => prevSelect.filter((item) => item !== index));
     }
+    function click(i) {
+        console.log(i);
+        if (!select.includes(i)) {
+            return setSelect((prevSelect) => [...prevSelect, i]);
+          }
+        
+    }
+
+    function send(e) {
+        e.preventDefault();
+        console.log('foi');
+        console.log(select);
+        const create = {
+            name: name, 
+            days: select
+        }
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits';
+        const settings = {
+            headers: {
+                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OTI1MSwiaWF0IjoxNjg1NTg0MTE1fQ.JqrkGOuJYYxD8YbTafpybcKlLUfi58gYMBlKO1ddx5M`
+            }
+        }
+
+        const promise = axios.post(URL, create,  settings);
+        promise.then(() => console.log('foi'));
+        promise.catch(() => console.log('não foi'));
+
+
+    }
+    // function create() {
+    //     console.log(select);
+    //     return (setPrint(
+    //         <>
+                
+    //         </>
+    //     ))
+    // }
     return (
         <>
             <Top />
             <ContainerHabits>
                 <AddHabits>
                     <Title>Meus hábitos</Title>
-                    <ButtonAdd onClick={create}><p>+</p></ButtonAdd>
+                    <ButtonAdd onClick={() => create()}><p>+</p></ButtonAdd>
                 </AddHabits>
-                {print}
+                <BoxAdd onSubmit={send}>
+                    <input type="text" placeholder="nome do hábito" value={name}
+                        onChange={(e) => setName(e.target.value)}/>
+                    <Word>
+                        {days.map((day, i) => {
+                            if (select.includes(i) === false) {
+                                return (
+                                    <button type='button' key={i} onClick={() => click(i)}>
+                                        {day}
+                                    </button>
+                                )
+                            } else {
+                                return (
+                                    <IsSelect type='button' key={i} onClick={() => unclick(i)}>
+                                        {day}
+                                    </IsSelect>
+                                )
+                            }
+
+                        })}
+                    </Word>
+
+                    <Click>
+                        <CancelButton>Cancelar</CancelButton>
+                        <SaveButton type='submit'><p>Salvar</p></SaveButton>
+                    </Click>
+                </BoxAdd>
+                <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>
+                
             </ContainerHabits>
             <Footer />
         </>
@@ -132,7 +145,7 @@ const ButtonAdd = styled.div`
         justify-content: flex-start;
     }
 `
-const BoxAdd = styled.div`
+const BoxAdd = styled.form`
     width: calc(100vw - 40px);
     height: 180px;
     border-radius: 5px;
@@ -194,37 +207,30 @@ const CancelButton = styled.button`
     margin: 0;
 `
 
-const Word = styled.div `
+const Word = styled.div`
     width: calc(100vw -80px);
     height: 30px;
+    background-color: #FFFFFF;
     display: flex;
     justify-content: flex-start;
     margin: 0 auto;
     button {
         width: 30px;
         height: 30px;
+        background-color: #FFFFFF;
+        border: 1px solid #D4D4D4;
         border-radius: 5px;
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
         margin-right: 4px;
-        p {
             font-size: 20px;
             font-weight: 400;
-        }
+            color: #DBDBDB;
+        
     }
 `
-const WordClick = styled.button`
+const IsSelect = styled.button `
     background-color: #CFCFCF;
-    border: 1px solid #CFCFCF;
-    p {
-        color: #FFFFFF;
-    }
-`
-const WordUnclick = styled.button`
-    background-color: #FFFFFF;
-    border: 1px solid #D4D4D4;
-    p {
-        color: #DBDBDB;
-    }
+    color: #FFFFFF;
 `

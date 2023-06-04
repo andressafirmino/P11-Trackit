@@ -1,18 +1,19 @@
 import Footer from "../../component/Footer/Footer";
 import Top from "../../component/Top/Top";
 import styled from "styled-components";
-import Progression from "../../component/Progression/Progression";
-import { useEffect } from "react";
+import Progression from "./Progression";
+import { useEffect, useState } from "react";
 import axios from "axios"
+import dayjs from "dayjs";
+import 'dayjs/locale/pt-br';
 
 
 export default function Today() {
 
-    const habitos = [
-        { titulo: 'AAA', paragrafo1: 'aaaa', paragrafo2: 'aaaa' },
-        { titulo: 'BBB', paragrafo1: 'bbbb', paragrafo2: 'bbbb' },
-        { titulo: 'CCC', paragrafo1: 'cccc', paragrafo2: 'cccc' },
-    ]
+    const [habs, setHabs] = useState([]);
+    const [day, setDay] = useState(dayjs().locale('pt-br').format('dddd,DD/MM'));
+   
+
 
     useEffect ( () => {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today';
@@ -22,17 +23,21 @@ export default function Today() {
             }
         }
         const promise = axios.get(URL, settings);
-        promise.then(response => console.log(response.data));
+        promise.then(response => {
+            console.log(response.data);
+            let habToday = response.data;
+            setHabs(habToday);
+        });
         promise.catch(erro => alert(erro.response));
     } , []);
     return (
         <>
             <Top />
             <ContainerToday>
-                <p className="first-paragraph">Dia da semana</p>
+                <p className="first-paragraph">{day}</p>
                 <p className="second-paragraph">Nenhum hábito concluído</p>
-                    {habitos.map(hab => 
-                        <Progression key={hab.titulo} titulo={hab.titulo} paragrafo1={hab.paragrafo1} paragrafo2={hab.paragrafo2} />
+                    {habs.map(hab => 
+                        <Progression key={hab.id} name={hab.name} currentSequence={hab.currentSequence} highestSequence={hab.highestSequence} done={hab.done} id={hab.id}/>
                     )}
             </ContainerToday>
 
