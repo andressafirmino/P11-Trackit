@@ -93,31 +93,7 @@ export default function Habits() {
     }
 
 
-    // if (select.includes(i)) {
-    //     let newArray = select.filter((item) => item !== i);
-    //     setSelect(newArray);
-    // } else {
-    //     let newArray = [...select, i];
-    //     setSelect(newArray);
-    // }
-    //  if(select.includes(i)) {
-    //      let newArray = [...select];
-    //      let position = newArray.indexOf(i);
-    //      let remove = newArray.splice(position, 1);
-    //      setSelect(newArray);
-    //  } else {
-    //      let newArray = [...select, i];
-    //      setSelect(newArray);
-    //  }
-    // if (!select.includes(i)) {
-    //     return setSelect((prevSelect) => [...prevSelect, i]);
-    // }
-
-    // function unclick(i) {
-    //     console.log(i);
-    //     return setSelect( ( prevSelect )  =>  prevSelect.filter( ( item )  =>  item  !==  i ) ) ;
-    //     //setSelect((prevSelect) => prevSelect.filter((item) => item !== i));
-    // }
+    
     function click(i) {
         console.log(i);
         if(select.includes(i)) {
@@ -130,41 +106,7 @@ export default function Habits() {
             setSelect(newArray);
         }
     }
-        //   setSelect((prevdiasclicados) => ({
-        //     ...prevdiasclicados,
-        //     [i]: !prevdiasclicados[i],
-        // }));
-        // if (!select.includes(i)) {
-        //     return setSelect((prevSelect) => [...prevSelect, { item: i, selected: true }]);
-        //   } else {
-        //     return setSelect((prevSelect) =>
-        //       prevSelect.filter((item) => item.item !== i)
-        //     );
-        //   }
-        // }
-    // //     if (!select.includes(i)) {
-    // //         return setSelect((prevSelect) => [...prevSelect, i]);
-    // //     } else {
-    // //         return setSelect((prevSelect) => prevSelect.filter((item) => item !== i));
-    // //     }
-    // // }
-    //    if(select.includes(i) === false) {
-    //     return (
-    //         <Day type="button" onClick={() => click(i)} >
-    //             <p>{day}</p>
-    //         </Day> 
-    //     )
-    //    } else if (select.includes(i)) {
-    //     return (
-    //         <Day type="button" onClick={() => unclick(i)} >
-    //             <p>{day}</p>
-    //         </Day> 
-    //     )
-    //    }
-
-
-
-
+        
     return (
 
 
@@ -198,7 +140,7 @@ export default function Habits() {
                                 <DayStyled type="button" className={ select.includes(i) ? 'selected' : ''}
                                     key={i} onClick={() => click(i)}
                                     select={select} disabled={disabled} 
-                                    i={i} data-test="habit-day">
+                                    i={i}>
                                     {day}
                                 </DayStyled>
                             )}
@@ -377,7 +319,7 @@ const IsSelect = styled.button`
     background-color: #CFCFCF;
     color: #FFFFFF;
 `
-const DayStyled = styled.button`
+const DayStyled = styled.button.attrs(() => ({"data-test": "habit-day"}))`
     background-color: #FFFFFF;
         border: 1px solid #D4D4D4;
         border-radius: 5px;
