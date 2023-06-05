@@ -345,9 +345,11 @@ const Word = styled.div`
     margin: 0 auto;
     button {
         width: 30px;
-        height: 30px;
-        
-        
+        height: 30px;        
+    }
+    .selected {
+        background-color: #CFCFCF;
+        color: #FFFFFF;
     }
 `
 const IsSelect = styled.button`

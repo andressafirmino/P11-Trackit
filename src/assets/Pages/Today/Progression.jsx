@@ -72,7 +72,7 @@ export default function Progression(props) {
         )
     }
 
-    if (done) {
+    if (done === true && currentSequence < highestSequence && currentSequence > 0) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>
