@@ -47,7 +47,7 @@ export default function Habits() {
             setPrint(response.data)
             setHabits(habits_length)
             setDaysMarked(response.data);
-            console.log(response.data);
+            console.log(marked);
         });
         promise.catch(erro => console.log('não foi'));
     }, [update]);
@@ -77,7 +77,9 @@ export default function Habits() {
     }
 
     function clear() {
+        console.log(id);
         const conf = window.confirm('Desejar deletar hábito?');
+
         if (conf) {
             const url = `${URL}/habits/${id}`
             const settings = {
