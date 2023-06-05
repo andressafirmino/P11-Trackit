@@ -1,18 +1,18 @@
 import axios from "axios";
 import styled from "styled-components";
 import vector from "../../Image/Vector.png";
-import { useContext} from "react";
-import {AuthContext} from "../../contexts/auth";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
 import { useNavigate } from "react-router-dom";
 
 
 
 export default function Progression(props) {
-                            
-    const { name, currentSequence, highestSequence, done, id, 
-        countCurrent, setCountCurrent, countHighest, 
-        setCountHiguest, setUpdate} = props;
-    const {URL, token} = useContext(AuthContext);
+
+    const { name, currentSequence, highestSequence, done, id,
+        countCurrent, setCountCurrent, countHighest,
+        setCountHiguest, setUpdate } = props;
+    const { URL, token } = useContext(AuthContext);
     const navigate = useNavigate();
     if (countCurrent <= 1) {
         setCountCurrent('dias');
@@ -30,9 +30,10 @@ export default function Progression(props) {
         const promise = axios.post(url, id, settings);
         promise.then(() => {
             setUpdate(true);
-            navigate('/hoje')});
+            navigate('/hoje')
+        });
         promise.catch(() => alert(erro.response.data.message));
-        
+
     }
     function check() {
         const url = `${URL}/habits/${id}/check`;
@@ -44,7 +45,8 @@ export default function Progression(props) {
         const promise = axios.post(url, id, settings);
         promise.then(() => {
             setUpdate(true);
-            navigate('/hoje')});
+            navigate('/hoje')
+        });
         promise.catch(() => alert(erro.response.data.message));
     }
 
@@ -59,7 +61,7 @@ export default function Progression(props) {
                 </CheckIn>
             </>
         )
-    } else if(done === false && currentSequence === highestSequence && currentSequence > 0) {
+    } else if (done === false && currentSequence === highestSequence && currentSequence > 0) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>
@@ -83,7 +85,19 @@ export default function Progression(props) {
                 </CheckIn>
             </>
         )
-    } else if (done !== true && (currentSequence < highestSequence) && currentSequence > 0){
+    } else if (done !== true && (currentSequence < highestSequence) && currentSequence > 0) {
+        return (
+            <>
+                <Title data-test="today-habit-name">{name}</Title>
+                <Text data-test="today-habit-sequence">Sequência atual: {currentSequence} {countCurrent} </Text>
+                <Text data-test="today-habit-record">Seu recorde: {highestSequence} {countHighest}</Text>
+                <Check onClick={check} data-test="today-habit-check-btn">
+                    <img src={vector} />
+                </Check>
+            </>
+        )
+    }
+    if (!done && currentSequence === 0) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>

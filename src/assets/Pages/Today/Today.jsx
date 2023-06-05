@@ -30,7 +30,7 @@ export default function Today() {
         }
         const promise = axios.get(url, settings);
         promise.then(response => {
-            console.log(response.data.length);
+            console.log(response.data);
             setUpdate(false);
             let habToday = response.data;
             setHabs(habToday);

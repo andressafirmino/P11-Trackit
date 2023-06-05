@@ -22,6 +22,8 @@ export default function Habits() {
     const [del, setDel] = useState(false);
     const [id, setId] = useState(0);
     const [disabled, setDisabled] = useState(false);
+    const [marked, setMarked] = useState([0, 1, 2, 3, 4, 5, 6]);
+    const [daysMarked, setDaysMarked] = ([]);
     console.log(select);
     
 
@@ -44,6 +46,7 @@ export default function Habits() {
             let habits_length = response.data.length;
             setPrint(response.data)
             setHabits(habits_length)
+            setDaysMarked(response.data);
             console.log(response.data);
         });
         promise.catch(erro => console.log('não foi'));
@@ -193,13 +196,26 @@ export default function Habits() {
                             onChange={(e) => setName(e.target.value)} disabled={disabled} required
                             data-test="habit-name-input" />
                         <Word>
-                            {days.map((day, i) =>
-                                <DayStyled type="button" className="`i ${i.selected ? 'selected' : ''}`"
-                                    key={i} onClick={() => click(i)}
-                                    select={select} disabled={disabled} 
-                                    i={i} data-test="habit-day">
-                                    {day}
-                                </DayStyled>
+                            {days.map((day, i) => {
+                                if(select.includes(i) === true) {
+                                    return (
+                                        <DayStyled type="button" className="selected"
+                                        key={i} onClick={() => click(i)}
+                                        select={select} disabled={disabled} 
+                                        i={i} data-test="habit-day">
+                                        {day}
+                                        </DayStyled>
+                                    )
+                                } else if (select.includes(i) === false){
+                                    <DayStyled type="button"
+                                        key={i} onClick={() => click(i)}
+                                        select={select} disabled={disabled} 
+                                        i={i} data-test="habit-day">
+                                        {day}
+                                        </DayStyled>
+                                }
+                            }
+                                
                             )}
                         </Word>
                         <Click>
@@ -231,10 +247,23 @@ export default function Habits() {
                             <HabitStyled key={hab.id} data-test="habit-container" >
                                 <p data-test="habit-name">{hab.name}</p>
                                 <div>
-                                    {days.map((day, i) =>
-                                        <div key={i} select={select} data-test="habit-day">
-                                            {day}
-                                        </div>
+                                    {days.map((day, i) => {
+                                        if(marked.includes(i)) {
+                                            return (
+                                                
+                                                <div className="selected" key={i} select={select} data-test="habit-day">
+                                                {day}
+                                            </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <div key={i} select={select} data-test="habit-day">
+                                                {day}
+                                            </div>
+                                            )
+                                        }
+                                    }
+                                       
                                     )}
                                 </div>
                                 <img src={Lixeira} onClick={(() => (
@@ -359,17 +388,12 @@ const CancelButton = styled.button`
 const Word = styled.div`
     width: calc(100vw -80px);
     height: 30px;
-    background-color: #FFFFFF;
     display: flex;
     justify-content: flex-start;
     margin: 0 auto;
     button {
         width: 30px;
         height: 30px;        
-    }
-    .selected {
-        background-color: #CFCFCF;
-        color: #FFFFFF;
     }
 `
 const IsSelect = styled.button`
@@ -384,9 +408,13 @@ const DayStyled = styled.button`
         justify-content: center;
         align-items: center;
         margin-right: 4px;
-            font-size: 20px;
-            font-weight: 400;
-            color:#DBDBDB;
+        font-size: 20px;
+        font-weight: 400;
+        color:#DBDBDB;
+        .selected {
+        background-color: #CFCFCF;
+        color: #FFFFFF;
+    }
 `
 const ContainerHab = styled.div`
     width: calc(100vw - 80px);
