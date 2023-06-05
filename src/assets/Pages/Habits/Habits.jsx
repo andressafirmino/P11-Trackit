@@ -140,7 +140,7 @@ export default function Habits() {
                     </Delete>
                 )}
                 {create && (
-                    <BoxAdd onSubmit={send} data-test = "habit-create-save-btn">
+                    <BoxAdd onSubmit={send} data-test="habit-create-container">
                         <input type="text" placeholder="nome do hábito" value={name}
                             onChange={(e) => setName(e.target.value)} disabled={disabled} 
                             data-test="habit-name-input" />
@@ -183,7 +183,9 @@ export default function Habits() {
                                 <div>
                                     {days.map((day, i) =>
                         
-                                        <LetterDay key={i} select={select} data-test="habit-day" onClick={(console.log(hab.days))} className={ marked.includes(hab.days) ? 'selected' : ''}>
+                                        <LetterDay key={i} data-test="habit-day" 
+                                        onClick={(console.log(hab.days))} 
+                                        className={ hab.days.includes(i) ? 'selected' : ''}>
                                             {day}
                                         </LetterDay>
                                     )}
