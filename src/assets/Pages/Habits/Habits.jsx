@@ -23,7 +23,7 @@ export default function Habits() {
     const [id, setId] = useState(0);
     const [disabled, setDisabled] = useState(false);
     console.log(select);
-    console.log(habits);
+    
 
 
 
@@ -118,16 +118,34 @@ export default function Habits() {
     // }
     function click(i) {
         console.log(i);
+        if(select.includes(i)) {
+            let newArray = [...select];
+            let position = newArray.indexOf(i);
+            let remove = newArray.splice(position, 1);
+            setSelect(newArray);
+        } else {
+            let newArray = [...select, i];
+            setSelect(newArray);
+        }
+    }
         //   setSelect((prevdiasclicados) => ({
         //     ...prevdiasclicados,
         //     [i]: !prevdiasclicados[i],
         // }));
-        if (!select.includes(i)) {
-            return setSelect((prevSelect) => [...prevSelect, i]);
-        } else {
-            return setSelect((prevSelect) => prevSelect.filter((item) => item !== i));
-        }
-    }
+        // if (!select.includes(i)) {
+        //     return setSelect((prevSelect) => [...prevSelect, { item: i, selected: true }]);
+        //   } else {
+        //     return setSelect((prevSelect) =>
+        //       prevSelect.filter((item) => item.item !== i)
+        //     );
+        //   }
+        // }
+    // //     if (!select.includes(i)) {
+    // //         return setSelect((prevSelect) => [...prevSelect, i]);
+    // //     } else {
+    // //         return setSelect((prevSelect) => prevSelect.filter((item) => item !== i));
+    // //     }
+    // // }
     //    if(select.includes(i) === false) {
     //     return (
     //         <Day type="button" onClick={() => click(i)} >
@@ -144,7 +162,6 @@ export default function Habits() {
 
 
 
-    console.log(id);
 
     return (
 
@@ -176,8 +193,10 @@ export default function Habits() {
                             data-test="habit-name-input" />
                         <Word>
                             {days.map((day, i) =>
-                                <DayStyled type="button" key={i} onClick={() => click(i)}
-                                    select={select} disabled={disabled} data-test="habit-day">
+                                <DayStyled type="button" className="`i ${i.selected ? 'selected' : ''}`"
+                                    key={i} onClick={() => click(i)}
+                                    select={select} disabled={disabled} 
+                                    i={i} data-test="habit-day">
                                     {day}
                                 </DayStyled>
                             )}
@@ -412,53 +431,53 @@ const HabitStyled = styled.div`
         right: 10px;
     }
 `
-const Delete = styled.div`
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    div {
-        width: 300px;
-        height: 150px;
-        background-color: #126BA5;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-radius: 5px;
-        div {
-            width: 250px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+// const Delete = styled.div`
+//     width: 100%;
+//     height: 100%;
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     background-color: rgba(255, 255, 255, 0.6);
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+   
+//     div {
+//         width: 300px;
+//         height: 150px;
+//         background-color: #126BA5;
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-between;
+//         align-items: center;
+//         padding: 20px;
+//         border-radius: 5px;
+//         div {
+//             width: 250px;
+//             display: flex;
+//             flex-direction: row;
+//             justify-content: space-between;
 
-            button {
-                width: 100px;
-                height: 40px;
-                margin: 0 5px;
-                border-radius: 5px;
-                border: none;
-    }
-        }
-        p {
-        font-size: 23px;
-        font-weight: 400;
-        color: #FFFFFF;
-    }
+//             button {
+//                 width: 100px;
+//                 height: 40px;
+//                 margin: 0 5px;
+//                 border-radius: 5px;
+//                 border: none;
+//     }
+//         }
+//         p {
+//         font-size: 23px;
+//         font-weight: 400;
+//         color: #FFFFFF;
+//     }
     
-    }
+//     }
     
-`
-const Red = styled.button`
-    background-color: red;
-`
-const Green = styled.button`
-    background-color: green;
-`
+// `
+// const Red = styled.button`
+//     background-color: red;
+// `
+// const Green = styled.button`
+//     background-color: green;
+// `

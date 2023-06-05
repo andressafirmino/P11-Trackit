@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 export default function Progression(props) {
                             
     const { name, currentSequence, highestSequence, done, id, 
-        counter, setCounter, countCurrent, setCountCurrent,
-        countHighest, setCountHiguest, setUpdate} = props;
+        countCurrent, setCountCurrent, countHighest, 
+        setCountHiguest, setUpdate} = props;
     const {URL, token} = useContext(AuthContext);
     const navigate = useNavigate();
     if (countCurrent <= 1) {
@@ -72,7 +72,7 @@ export default function Progression(props) {
         )
     }
 
-    if (done === true && currentSequence < highestSequence && currentSequence > 0) {
+    if (done === true && (currentSequence < highestSequence) && currentSequence > 0) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>
@@ -83,7 +83,7 @@ export default function Progression(props) {
                 </CheckIn>
             </>
         )
-    } else {
+    } else if (done !== true && (currentSequence < highestSequence) && currentSequence > 0){
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>

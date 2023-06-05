@@ -24,6 +24,8 @@ const ContainerTop = styled.div`
     left: 0;
     position: relative;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    
     p {
         font-size: 49px;
         font-weight: 400;

@@ -30,16 +30,15 @@ export default function Today() {
         }
         const promise = axios.get(url, settings);
         promise.then(response => {
-            console.log(response.data);
+            console.log(response.data.length);
             setUpdate(false);
             let habToday = response.data;
             setHabs(habToday);
             navigate('/hoje');
-            const porcentaArray = response.data.map(item => item.done);
-            const trueCount = porcentaArray.filter(value => value === true).length;
-            const arredondado = Math.ceil((trueCount / response.data.length) * 100);
-            console.log(arredondado);
-            setCounter(arredondado);
+            const porcentArray = response.data.map(item => item.done);
+            const trueCount = porcentArray.filter(value => value === true).length;
+            const integer = Math.ceil((trueCount / response.data.length) * 100);
+            setCounter(integer);
             setTotal(response.data.length);
         });
         promise.catch(erro => alert(erro.response));
@@ -51,10 +50,13 @@ export default function Today() {
             <Top />
             <ContainerToday>
                 <p className="first-paragraph" data-test="today">{day}</p>
+                {total === 0 && (
+                    <p className="second-paragraph" data-test="today-counter">Nenhum hábito concluído ainda</p>
+                )}
                 {counter === 0 && (
                     <p className="second-paragraph" data-test="today-counter">Nenhum hábito concluído ainda</p>
                 )}
-                {counter !== 0 && (
+                {counter !== 0 && total !== 0 && (
                     <p className="third-paragraph" data-test="today-counter">{counter}% dos hábitos concluídos</p>
                 )}
                 
@@ -71,6 +73,7 @@ export default function Today() {
                             countHighest={countHighest}
                             setCountHiguest={setCountHiguest}
                             setUpdate={setUpdate}
+                            total={total}
                             />
                     </Box>
                 )}
@@ -110,6 +113,7 @@ const Box = styled.div`
     padding: 15px;
     margin-top: 28px;
     position: relative;
+    
     div {
         display: flex;
     }
