@@ -30,7 +30,6 @@ export default function Today() {
         }
         const promise = axios.get(url, settings);
         promise.then(response => {
-            console.log(response.data);
             setUpdate(false);
             let habToday = response.data;
             setHabs(habToday);
@@ -88,24 +87,27 @@ const ContainerToday = styled.div`
     width: 100%;
     height: 100%;  
     padding-left: 17px;
-    margin: 28px auto;
+    margin: 28px auto 100px;
     .first-paragraph {
         font-family: 'Lexend Deca';
         font-size: 23px;
         font-weight: 400;
         color: #126BA5;
+        margin-bottom: 4px;
     }
     .second-paragraph {
         font-family: 'Lexend Deca';
         font-size: 18px;
         font-weight: 400;
         color: #BABABA;
+        margin-bottom: 28px;
     }
     .third-paragraph {
         font-family: 'Lexend Deca';
         font-size: 18px;
         font-weight: 400;
         color: #8FC549;
+        margin-bottom: 28px;
     }
 `
 const Box = styled.div`
@@ -114,7 +116,7 @@ const Box = styled.div`
     background-color: #FFFFFF; 
     border-radius: 5px;
     padding: 15px;
-    margin-top: 28px;
+    margin-top: 10px;
     position: relative;
     
     div {

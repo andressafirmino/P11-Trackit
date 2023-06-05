@@ -22,15 +22,6 @@ export default function Habits() {
     const [del, setDel] = useState(false);
     const [id, setId] = useState(0);
     const [disabled, setDisabled] = useState(false);
-    const [marked, setMarked] = useState([0, 1, 2, 3, 4, 5, 6]);
-    console.log(select);
-    
-
-
-
-
-
-
 
     useEffect(() => {
         const url = `${URL}/habits`;
@@ -45,7 +36,6 @@ export default function Habits() {
             let habits_length = response.data.length;
             setPrint(response.data)
             setHabits(habits_length)
-            console.log(response.data);
         });
         promise.catch(erro => console.log('não foi'));
     }, [update]);
@@ -72,11 +62,9 @@ export default function Habits() {
         }
         const promise = axios.post(url, create, settings);
        
-
-        setTimeout ( ( )  =>  {
-            promise.then(() => setCreate(false), setUpdate(true), setDisabled(false), setName(''), setSelect([]));
-            promise.catch(erro => alert(erro.response.data.message), setDisabled(false));
-        } ,  1000 ) ;
+        promise.then(() => setCreate(false), setUpdate(true), setDisabled(false), setName(''), setSelect([]));
+        promise.catch(erro => alert(erro.response.data.message), setDisabled(false));
+        
 
         
        
@@ -184,7 +172,6 @@ export default function Habits() {
                                     {days.map((day, i) =>
                         
                                         <LetterDay key={i} data-test="habit-day" 
-                                        onClick={(console.log(hab.days))} 
                                         className={ hab.days.includes(i) ? 'selected' : ''}>
                                             {day}
                                         </LetterDay>
