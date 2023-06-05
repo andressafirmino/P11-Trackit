@@ -22,8 +22,6 @@ export default function Habits() {
     const [del, setDel] = useState(false);
     const [id, setId] = useState(0);
     const [disabled, setDisabled] = useState(false);
-    const [marked, setMarked] = useState([0, 1, 2, 3, 4, 5, 6]);
-    const [daysMarked, setDaysMarked] = ([]);
     console.log(select);
     
 
@@ -46,8 +44,7 @@ export default function Habits() {
             let habits_length = response.data.length;
             setPrint(response.data)
             setHabits(habits_length)
-            setDaysMarked(response.data);
-            console.log(marked);
+            console.log(response.data);
         });
         promise.catch(erro => console.log('não foi'));
     }, [update]);
@@ -79,7 +76,6 @@ export default function Habits() {
     function clear() {
         console.log(id);
         const conf = window.confirm('Desejar deletar hábito?');
-
         if (conf) {
             const url = `${URL}/habits/${id}`
             const settings = {
@@ -193,36 +189,23 @@ export default function Habits() {
                     </Delete>
                 )}
                 {create && (
-                    <BoxAdd onSubmit={send} data-test="habit-create-container">
+                    <BoxAdd onSubmit={send}>
                         <input type="text" placeholder="nome do hábito" value={name}
                             onChange={(e) => setName(e.target.value)} disabled={disabled} required
                             data-test="habit-name-input" />
                         <Word>
-                            {days.map((day, i) => {
-                                if(select.includes(i) === true) {
-                                    return (
-                                        <DayStyled type="button" className="selected"
-                                        key={i} onClick={() => click(i)}
-                                        select={select} disabled={disabled} 
-                                        i={i} data-test="habit-day">
-                                        {day}
-                                        </DayStyled>
-                                    )
-                                } else if (select.includes(i) === false){
-                                    <DayStyled type="button"
-                                        key={i} onClick={() => click(i)}
-                                        select={select} disabled={disabled} 
-                                        i={i} data-test="habit-day">
-                                        {day}
-                                        </DayStyled>
-                                }
-                            }
-                                
+                            {days.map((day, i) => 
+                                <DayStyled type="button" className={ select.includes(i) ? 'selected' : ''}
+                                    key={i} onClick={() => click(i)}
+                                    select={select} disabled={disabled} 
+                                    i={i} data-test="habit-day">
+                                    {day}
+                                </DayStyled>
                             )}
                         </Word>
                         <Click>
-                            <CancelButton type="button" onClick={() => setCreate(false)} disabled={disabled} data-test="habit-create-cancel-btn">Cancelar</CancelButton>
-                            <SaveButton type="submit" disabled={disabled} data-test="habit-create-save-btn">
+                            <CancelButton type="button" onClick={() => setCreate(false)} disabled={disabled} >Cancelar</CancelButton>
+                            <SaveButton type="submit" disabled={disabled} >
                                 {disabled ? (
                                     <ThreeDots width={32} height={21}
                                         border-radius={4.5} background-color="#52B6FF"
@@ -249,23 +232,10 @@ export default function Habits() {
                             <HabitStyled key={hab.id} data-test="habit-container" >
                                 <p data-test="habit-name">{hab.name}</p>
                                 <div>
-                                    {days.map((day, i) => {
-                                        if(marked.includes(i)) {
-                                            return (
-                                                
-                                                <div className="selected" key={i} select={select} data-test="habit-day">
-                                                {day}
-                                            </div>
-                                            )
-                                        } else {
-                                            return (
-                                                <div key={i} select={select} data-test="habit-day">
-                                                {day}
-                                            </div>
-                                            )
-                                        }
-                                    }
-                                       
+                                    {days.map((day, i) =>
+                                        <div key={i} select={select} data-test="habit-day">
+                                            {day}
+                                        </div>
                                     )}
                                 </div>
                                 <img src={Lixeira} onClick={(() => (
@@ -325,7 +295,7 @@ const ButtonAdd = styled.div`
         justify-content: flex-start;
     }
 `
-const BoxAdd = styled.form`
+const BoxAdd = styled.form.attrs(() => ({"data-test": "habit-create-save-btn"}))`
     width: calc(100vw - 40px);
     height: 180px;
     border-radius: 5px;
@@ -361,7 +331,7 @@ const Click = styled.div`
     align-items: center;
     margin-top: 29px;
 `
-const SaveButton = styled.button`
+const SaveButton = styled.button.attrs(() => ({"data-test": "habit-create-save-btn"}))`
     width: 84px;
     height: 35px;
     background-color: #52B6FF;
@@ -377,7 +347,7 @@ const SaveButton = styled.button`
         color: #FFFFFF;
     }
 `
-const CancelButton = styled.button`
+const CancelButton = styled.button.attrs(() => ({"data-test": "habit-create-cancel-btn"}))`
     font-size: 16px;
     font-weight: 400;
     color: #52B6FF;
@@ -390,12 +360,17 @@ const CancelButton = styled.button`
 const Word = styled.div`
     width: calc(100vw -80px);
     height: 30px;
+    background-color: #FFFFFF;
     display: flex;
     justify-content: flex-start;
     margin: 0 auto;
     button {
         width: 30px;
         height: 30px;        
+    }
+    .selected {
+        background-color: #CFCFCF;
+        color: #FFFFFF;
     }
 `
 const IsSelect = styled.button`
@@ -410,13 +385,9 @@ const DayStyled = styled.button`
         justify-content: center;
         align-items: center;
         margin-right: 4px;
-        font-size: 20px;
-        font-weight: 400;
-        color:#DBDBDB;
-        .selected {
-        background-color: #CFCFCF;
-        color: #FFFFFF;
-    }
+            font-size: 20px;
+            font-weight: 400;
+            color:#DBDBDB;
 `
 const ContainerHab = styled.div`
     width: calc(100vw - 80px);
