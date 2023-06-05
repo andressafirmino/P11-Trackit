@@ -73,17 +73,21 @@ export default function Habits() {
     }
 
     function clear() {
-        console.log(id);
-        const url = `${URL}/habits/${id}`
-        const settings = {
-            headers: {
-                Authorization: `Bearer ${token}`
+        const conf = window.confirm('Desejar deletar hábito?');
+        if (conf) {
+            const url = `${URL}/habits/${id}`
+            const settings = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
             }
+            const promise = axios.delete(url, settings);
+            setDisabled(true);
+            promise.then(() => setUpdate(true), setDel(false), setDisabled(false));
+            promise.catch(erro => alert(erro.response), setDisabled(false));
         }
-        const promise = axios.delete(url, settings);
-        setDisabled(true);
-        promise.then(() => setUpdate(true), setDel(false), setDisabled(false));
-        promise.catch(erro => alert(erro.response), setDisabled(false));
+
+
     }
 
 
@@ -166,25 +170,25 @@ export default function Habits() {
                     </Delete>
                 )}
                 {create && (
-                    <BoxAdd data-test="habit-create-container">
+                    <BoxAdd onSubmit={send} data-test="habit-create-container">
                         <input type="text" placeholder="nome do hábito" value={name}
-                            onChange={(e) => setName(e.target.value)} disabled={disabled} required 
-                            data-test="habit-name-input"/>
+                            onChange={(e) => setName(e.target.value)} disabled={disabled} required
+                            data-test="habit-name-input" />
                         <Word>
                             {days.map((day, i) =>
-                                <DayStyled type="button" key={i} onClick={() => click(i)} 
-                                select={select} disabled={disabled} data-test="habit-day">
+                                <DayStyled type="button" key={i} onClick={() => click(i)}
+                                    select={select} disabled={disabled} data-test="habit-day">
                                     {day}
                                 </DayStyled>
                             )}
                         </Word>
                         <Click>
                             <CancelButton type="button" data-test="habit-create-cancel-btn">Cancelar</CancelButton>
-                            <SaveButton type="button" onClick={send} disabled={disabled} data-test="habit-create-save-btn">
+                            <SaveButton type="submit" disabled={disabled} data-test="habit-create-save-btn">
                                 {disabled ? (
-                                    <ThreeDots width={32} height={21} 
-                                    border-radius={4.5} background-color="#52B6FF" 
-                                    color="#FFFFFF" font-size={9} />
+                                    <ThreeDots width={32} height={21}
+                                        border-radius={4.5} background-color="#52B6FF"
+                                        color="#FFFFFF" font-size={9} />
                                 ) : (
                                     <p>Salvar</p>
                                 )}
@@ -214,8 +218,9 @@ export default function Habits() {
                                     )}
                                 </div>
                                 <img src={Lixeira} onClick={(() => (
-                                    setId(hab.id),
-                                    setDel(true)))} data-test="habit-delete-btn"/>
+                                    clear(),
+                                    setId(hab.id)
+                                ))} data-test="habit-delete-btn" />
                             </HabitStyled>)}
                     </ContainerHab>
                 )}
