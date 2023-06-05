@@ -11,8 +11,8 @@ export default function Progression(props) {
                             
     const { name, currentSequence, highestSequence, done, id, 
         counter, setCounter, countCurrent, setCountCurrent,
-        countHighest, setCountHiguest} = props;
-    const {URL, token, setUpdate} = useContext(AuthContext);
+        countHighest, setCountHiguest, setUpdate} = props;
+    const {URL, token} = useContext(AuthContext);
     const navigate = useNavigate();
     if (countCurrent <= 1) {
         setCountCurrent('dias');
@@ -28,7 +28,9 @@ export default function Progression(props) {
             }
         }
         const promise = axios.post(url, id, settings);
-        promise.then(() => navigate('/hoje'));
+        promise.then(() => {
+            setUpdate(true);
+            navigate('/hoje')});
         promise.catch(() => alert(erro.response.data.message));
         
     }
@@ -40,7 +42,9 @@ export default function Progression(props) {
             }
         }
         const promise = axios.post(url, id, settings);
-        promise.then(() => navigate('/hoje'));
+        promise.then(() => {
+            setUpdate(true);
+            navigate('/hoje')});
         promise.catch(() => alert(erro.response.data.message));
     }
 

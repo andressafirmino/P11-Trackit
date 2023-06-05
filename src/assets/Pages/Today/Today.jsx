@@ -12,14 +12,14 @@ import {AuthContext} from "../../contexts/auth";
 
 export default function Today() {
 
-    const {URL, token, update} = useContext(AuthContext);
+    const {URL, token, counter, setCounter} = useContext(AuthContext);
     const [habs, setHabs] = useState([]);
-    const [day, setDay] = useState(dayjs().locale('pt-br').format('dddd,DD/MM'));
+    const [day, setDay] = useState(dayjs().locale('pt-br').format('dddd, DD/MM'));
     const [countCurrent, setCountCurrent] = useState('dia');
     const [countHighest, setCountHiguest] = useState('dia');
     const navigate = useNavigate();
-    
-
+    const [update, setUpdate] = useState(false);
+    const [total, setTotal] = useState(0);
     useEffect(() => {
 
         const url = `${URL}/habits/today`;
@@ -31,9 +31,16 @@ export default function Today() {
         const promise = axios.get(url, settings);
         promise.then(response => {
             console.log(response.data);
+            setUpdate(false);
             let habToday = response.data;
             setHabs(habToday);
             navigate('/hoje');
+            const porcentaArray = response.data.map(item => item.done);
+            const trueCount = porcentaArray.filter(value => value === true).length;
+            const arredondado = Math.ceil((trueCount / response.data.length) * 100);
+            console.log(arredondado);
+            setCounter(arredondado);
+            setTotal(response.data.length);
         });
         promise.catch(erro => alert(erro.response));
     }, [update]);
@@ -44,7 +51,13 @@ export default function Today() {
             <Top />
             <ContainerToday>
                 <p className="first-paragraph" data-test="today">{day}</p>
-                <p className="second-paragraph">Nenhum hábito concluído</p>
+                {counter === 0 && (
+                    <p className="second-paragraph" data-test="today-counter">Nenhum hábito concluído ainda</p>
+                )}
+                {counter !== 0 && (
+                    <p className="third-paragraph" data-test="today-counter">{counter}% dos hábitos concluídos</p>
+                )}
+                
                 {habs.map(hab =>
                     <Box key={hab.id} data-test="today-habit-container">
                         <Progression 
@@ -57,6 +70,7 @@ export default function Today() {
                             setCountCurrent={setCountCurrent}
                             countHighest={countHighest}
                             setCountHiguest={setCountHiguest}
+                            setUpdate={setUpdate}
                             />
                     </Box>
                 )}
@@ -82,7 +96,11 @@ const ContainerToday = styled.div`
         font-weight: 400;
         color: #BABABA;
     }
-    
+    .third-paragraph {
+        font-size: 18px;
+        font-weight: 400;
+        color: #8FC549;
+    }
 `
 const Box = styled.div`
     width: 340px;
