@@ -63,8 +63,8 @@ export default function Progression(props) {
         return (
             <>
                 <Title data-test="today-habit-name">{name}</Title>
-                <div data-test="today-habit-sequence"><Text>Sequência atual: </Text><TextCheckIn>{currentSequence} {countCurrent}</TextCheckIn></div>
-                <div data-test="today-habit-record"><Text>Seu recorde: </Text><TextCheckIn>{highestSequence} {countHighest}</TextCheckIn></div>
+                <div data-test="today-habit-sequence"><Text>Sequência atual: {currentSequence} {countCurrent}</Text></div>
+                <div data-test="today-habit-record"><Text>Seu recorde: {highestSequence} {countHighest}</Text></div>
                 <Check onClick={check} data-test="today-habit-check-btn">
                     <img src={vector} />
                 </Check>
