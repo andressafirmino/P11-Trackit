@@ -66,8 +66,9 @@ export default function Habits() {
         }
 
         const promise = axios.post(url, create, settings);
-        promise.then(() => setCreate(false), setUpdate(true));
-        promise.catch(() => console.log('não foi'));
+        setDisabled(true);
+        promise.then(() => setCreate(false), setUpdate(true), setDisabled(false));
+        promise.catch(erro => alert(erro.response.data.message));
 
 
     }
@@ -202,7 +203,7 @@ export default function Habits() {
                             )}
                         </Word>
                         <Click>
-                            <CancelButton type="button" data-test="habit-create-cancel-btn">Cancelar</CancelButton>
+                            <CancelButton type="button" onClick={() => setCreate(false)} disabled={disabled} data-test="habit-create-cancel-btn">Cancelar</CancelButton>
                             <SaveButton type="submit" disabled={disabled} data-test="habit-create-save-btn">
                                 {disabled ? (
                                     <ThreeDots width={32} height={21}
