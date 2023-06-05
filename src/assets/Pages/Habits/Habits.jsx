@@ -195,7 +195,7 @@ const ContainerHabits = styled.div`
     display: flex;
     flex-direction: column;
     padding: 0 17px;
-    margin-top: 28px;
+    margin: 100px auto 120px;
 `
 const AddHabits = styled.div`
     display: flex;
@@ -336,7 +336,7 @@ const DayStyled = styled.button`
 `
 const ContainerHab = styled.div`
     width: calc(100vw - 80px);
-    margin: 0 auto 70px;
+    margin: 0 auto;
 `
 const HabitStyled = styled.div`
     width: calc(100vw - 80px);

@@ -31,7 +31,8 @@ export default function Footer() {
                     strokeWidth={10}
                     styles={{
                         path: { stroke: '#FFFFFF' },
-                        trail: { stroke: '#52B6FF' },
+                        trail: { stroke: '#52B6FF',
+                        marginBottom: '50px' },
                         text: { fill: '#FFFFFF',
                          fontSize: '18px',
                          fontWeight: 400, 
@@ -74,31 +75,14 @@ const LinkFooter = styled(Link)`
     
 `
 const CircleProgress = styled(Link)`
-width: 91px;
+    width: 91px;
     height: 91px;
     background-color: #52B6FF;
     border-radius: 98px;
-    margin-bottom : 5%;
+    margin-bottom : 50px;
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 7px;
-`
-const StyledCircularProgressbar = styled(CircularProgressbar)`
-    width: 91px;
-    height: 91px;
-    background-color: #52B6FF;
-    border-radius: 50%;
-    padding: 7px;
-    transition: 0.5s;
-    margin-bottom: 50px;
-    position: relative;
-    
-`;
-const Text = styled.text `
-    font-size: 18px;
-    font-weight: 400;
-    color: #FFFFFF;
-   
 `

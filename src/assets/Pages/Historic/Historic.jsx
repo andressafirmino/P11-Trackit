@@ -16,7 +16,7 @@ export default function Historic() {
 }
 
 export const ContainerHistoric = styled.div`
-    margin-top: 28px;
+    margin-top: 100px;
     margin-left: 17px;
     margin-right: 19px;
 `

@@ -87,7 +87,7 @@ const ContainerToday = styled.div`
     width: 100%;
     height: 100%;  
     padding-left: 17px;
-    margin: 28px auto 100px;
+    margin: 100px auto 120px;
     .first-paragraph {
         font-family: 'Lexend Deca';
         font-size: 23px;
