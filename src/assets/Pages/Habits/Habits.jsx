@@ -73,8 +73,7 @@ export default function Habits() {
 
     }
 
-    function clear() {
-        console.log(id);
+    function clear(id) {
         const conf = window.confirm('Desejar deletar hábito?');
         if (conf) {
             const url = `${URL}/habits/${id}`
@@ -181,7 +180,7 @@ export default function Habits() {
                                     )}
                                 </div>
                                 <img src={Lixeira} onClick={(() => (
-                                    clear(),
+                                    clear(hab.id),
                                     setId(hab.id)
                                 ))} data-test="habit-delete-btn" />
                             </HabitStyled>)}
