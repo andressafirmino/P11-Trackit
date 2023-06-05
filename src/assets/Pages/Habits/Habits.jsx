@@ -22,6 +22,7 @@ export default function Habits() {
     const [del, setDel] = useState(false);
     const [id, setId] = useState(0);
     const [disabled, setDisabled] = useState(false);
+    const [marked, setMarked] = useState([0, 1, 2, 3, 4, 5, 6]);
     console.log(select);
     
 
@@ -54,6 +55,11 @@ export default function Habits() {
         console.log('foi');
         console.log(select);
 
+        if (name.trim() === '') {
+            alert('O campo não foi preenchido. Por favor, insira um nome para o hábito.');
+            return;
+        }
+
         const create = {
             name: name,
             days: select
@@ -64,13 +70,17 @@ export default function Habits() {
                 Authorization: `Bearer ${token}`
             }
         }
-
         const promise = axios.post(url, create, settings);
         setDisabled(true);
-        promise.then(() => setCreate(false), setUpdate(true), setDisabled(false));
-        promise.catch(erro => alert(erro.response.data.message));
 
+        setTimeout ( ( )  =>  {
+            promise.then(() => setCreate(false), setUpdate(true), setDisabled(false));
+            promise.catch(erro => alert(erro.response.data.message));
+        } ,  1000 ) ;
 
+        
+       
+       
     }
 
     function clear(id) {
@@ -130,7 +140,7 @@ export default function Habits() {
                     </Delete>
                 )}
                 {create && (
-                    <BoxAdd onSubmit={send}>
+                    <BoxAdd onSubmit={send} data-test = "habit-create-save-btn">
                         <input type="text" placeholder="nome do hábito" value={name}
                             onChange={(e) => setName(e.target.value)} disabled={disabled} required
                             data-test="habit-name-input" />
@@ -139,18 +149,16 @@ export default function Habits() {
                                 <DayStyled type="button" className={ select.includes(i) ? 'selected' : ''}
                                     key={i} onClick={() => click(i)}
                                     select={select} disabled={disabled} 
-                                    i={i}>
+                                    i={i} data-test="habit-day">
                                     {day}
                                 </DayStyled>
                             )}
                         </Word>
                         <Click>
-                            <CancelButton type="button" onClick={() => setCreate(false)} disabled={disabled} >Cancelar</CancelButton>
-                            <SaveButton type="submit" disabled={disabled} >
+                            <CancelButton type="button" onClick={() => setCreate(false)} disabled={disabled} data-test="habit-create-cancel-btn">Cancelar</CancelButton>
+                            <SaveButton type="submit" disabled={disabled} data-test="habit-create-save-btn">
                                 {disabled ? (
-                                    <ThreeDots width={32} height={21}
-                                        border-radius={4.5} background-color="#52B6FF"
-                                        color="#FFFFFF" font-size={9} />
+                                    <ThreeDots width={32} height={21} border-radius={4.5} background-color="#52B6FF" color="#FFFFFF" font-size={9} />
                                 ) : (
                                     <p>Salvar</p>
                                 )}
@@ -174,7 +182,9 @@ export default function Habits() {
                                 <p data-test="habit-name">{hab.name}</p>
                                 <div>
                                     {days.map((day, i) =>
-                                        <div key={i} select={select} data-test="habit-day">
+                        
+                                        <div key={i} select={select} data-test="habit-day" onClick={(console.log(hab.days))} className={ marked.includes(hab.days) ? 'selected' : ''}
+                                        >
                                             {day}
                                         </div>
                                     )}
@@ -236,7 +246,7 @@ const ButtonAdd = styled.div`
         justify-content: flex-start;
     }
 `
-const BoxAdd = styled.form.attrs(() => ({"data-test": "habit-create-save-btn"}))`
+const BoxAdd = styled.form`
     width: calc(100vw - 40px);
     height: 180px;
     border-radius: 5px;
@@ -272,7 +282,7 @@ const Click = styled.div`
     align-items: center;
     margin-top: 29px;
 `
-const SaveButton = styled.button.attrs(() => ({"data-test": "habit-create-save-btn"}))`
+const SaveButton = styled.button`
     width: 84px;
     height: 35px;
     background-color: #52B6FF;
@@ -288,7 +298,7 @@ const SaveButton = styled.button.attrs(() => ({"data-test": "habit-create-save-b
         color: #FFFFFF;
     }
 `
-const CancelButton = styled.button.attrs(() => ({"data-test": "habit-create-cancel-btn"}))`
+const CancelButton = styled.button`
     font-size: 16px;
     font-weight: 400;
     color: #52B6FF;
@@ -318,7 +328,7 @@ const IsSelect = styled.button`
     background-color: #CFCFCF;
     color: #FFFFFF;
 `
-const DayStyled = styled.button.attrs(() => ({"data-test": "habit-day"}))`
+const DayStyled = styled.button`
     background-color: #FFFFFF;
         border: 1px solid #D4D4D4;
         border-radius: 5px;
@@ -354,6 +364,8 @@ const HabitStyled = styled.div`
         width: calc(100vw - 80px);
         height: 30px;
         display: flex;
+        
+
         div {
             width: 30px;
             height: 30px;
@@ -372,6 +384,23 @@ const HabitStyled = styled.div`
         position: absolute;
         top: 11px;
         right: 10px;
+    }
+`
+const LetterDay = styled.div `
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    p {
+        font-size: 20px;
+            font-weight: 400;
+            color:#DBDBDB;
+    }
+    .selected {
+        background-color: #CFCFCF;
+        color: #FFFFFF;
     }
 `
 // const Delete = styled.div`

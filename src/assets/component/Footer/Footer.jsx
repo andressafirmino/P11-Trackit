@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Circle from "../../Image/Ellipse.png"
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 
@@ -23,12 +24,22 @@ export default function Footer() {
     return (
         <ContainerFooter data-test="menu">
             <LinkFooter to='/habitos' data-test="habit-link">Hábitos</LinkFooter>
-            <Link to='/hoje' data-test="today-link">
-                <div>
-                    <StyledCircularProgressbar value={counter} styles={fillStyles}>
-                        <Text>Hoje</Text>
-                        </StyledCircularProgressbar>
-                </div></Link>
+            <CircleProgress to='/hoje' data-test="today-link">
+            <CircularProgressbar
+                    value={counter}
+                    text="Hoje"
+                    strokeWidth={10}
+                    styles={{
+                        path: { stroke: '#FFFFFF' },
+                        trail: { stroke: '#52B6FF' },
+                        text: { fill: '#FFFFFF',
+                         fontSize: '18px',
+                         fontWeight: 400, 
+                         lineHeight: '22px',
+                         fontFamily: 'Lexend Deca' },
+                    }}
+                />
+            </CircleProgress>
             <LinkFooter to='/historico' data-test="history-link">Histórico</LinkFooter>
         </ContainerFooter>
 
@@ -60,6 +71,19 @@ const LinkFooter = styled(Link)`
     font-weight: 400;
     color: #52B6FF;
     text-decoration: none;
+    
+`
+const CircleProgress = styled(Link)`
+width: 91px;
+    height: 91px;
+    background-color: #52B6FF;
+    border-radius: 98px;
+    margin-bottom : 5%;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
 `
 const StyledCircularProgressbar = styled(CircularProgressbar)`
     width: 91px;
