@@ -27,6 +27,7 @@ const ContainerTop = styled.div`
     z-index: 10;
     
     p {
+        font-family: 'Playball';
         font-size: 49px;
         font-weight: 400;
         color: #FFFFFF;

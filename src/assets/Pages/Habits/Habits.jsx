@@ -217,12 +217,14 @@ const AddHabits = styled.div`
     margin-bottom: 20px;
 `
 export const Title = styled.p`
+    font-family: 'Lexend Deca';
     font-size: 20px;
     font-weight: 400;
     color: #126BA5;
     margin-bottom: 8px;
 `
 export const Text = styled.p`
+    font-family: 'Lexend Deca';
     font-size: 18px;
     font-weight: 400;
     color: #666666;
@@ -237,6 +239,7 @@ const ButtonAdd = styled.div`
     justify-content: center;
     align-items: center;
     p {
+        font-family: 'Lexend Deca';
         text-align: center;
         font-size: 27px;
         font-weight: 400;
@@ -266,6 +269,7 @@ const BoxAdd = styled.form`
         margin: 0 auto 8px;
         padding: 9px;
         &::placeholder {
+            font-family: 'Lexend Deca';
             font-size: 20px;
             font-weight: 400;
             color: #DBDBDB;
@@ -294,6 +298,7 @@ const SaveButton = styled.button`
     align-items: center;
     margin-left: 23px;
     p {
+        font-family: 'Lexend Deca';
         font-size: 16px;
         font-weight: 400;
         color: #FFFFFF;
@@ -337,9 +342,10 @@ const DayStyled = styled.button`
         justify-content: center;
         align-items: center;
         margin-right: 4px;
-            font-size: 20px;
-            font-weight: 400;
-            color:#DBDBDB;
+        font-family: 'Lexend Deca';
+        font-size: 20px;
+        font-weight: 400;
+        color:#DBDBDB;
 `
 const ContainerHab = styled.div`
     width: calc(100vw - 80px);
@@ -356,6 +362,7 @@ const HabitStyled = styled.div`
     position: relative;
     padding: 15px;
     p {
+        font-family: 'Lexend Deca';
         font-size: 20px;
         font-weight: 400;
         color: #666666;
@@ -373,7 +380,8 @@ const HabitStyled = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 5px;
+            background-color: #FFFFFF;
+        border-radius: 5px;
             border: 1px solid #D4D4D4;
             margin-right: 4px;
             color: #DBDBDB;
@@ -386,23 +394,20 @@ const HabitStyled = styled.div`
         top: 11px;
         right: 10px;
     }
-`
-const LetterDay = styled.div `
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFFFFF;
-    p {
-        font-size: 20px;
-            font-weight: 400;
-            color:#DBDBDB;
-    }
     .selected {
         background-color: #CFCFCF;
         color: #FFFFFF;
     }
+`
+const LetterDay = styled.div `
+   
+    p {
+        font-family: 'Lexend Deca';
+        font-size: 20px;
+        font-weight: 400;
+        color:#DBDBDB;
+    }
+    
 `
 // const Delete = styled.div`
 //     width: 100%;

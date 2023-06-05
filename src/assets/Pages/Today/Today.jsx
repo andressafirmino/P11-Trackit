@@ -90,16 +90,19 @@ const ContainerToday = styled.div`
     padding-left: 17px;
     margin: 28px auto;
     .first-paragraph {
+        font-family: 'Lexend Deca';
         font-size: 23px;
         font-weight: 400;
         color: #126BA5;
     }
     .second-paragraph {
+        font-family: 'Lexend Deca';
         font-size: 18px;
         font-weight: 400;
         color: #BABABA;
     }
     .third-paragraph {
+        font-family: 'Lexend Deca';
         font-size: 18px;
         font-weight: 400;
         color: #8FC549;

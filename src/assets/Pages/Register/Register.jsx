@@ -57,6 +57,8 @@ export default function Register() {
 }
 
 const Container = styled.div`
+    width: 100%;
+    height: 1000px;
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;

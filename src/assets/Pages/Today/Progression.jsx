@@ -114,12 +114,14 @@ export default function Progression(props) {
 
 
 const Title = styled.p`
+    font-family: 'Lexend Deca';
     font-size: 20px;
     font-weight: 400;
     color: #666666;
     margin-bottom: 8px;
 `
 const Text = styled.p`
+    font-family: 'Lexend Deca';
     font-size: 13px;
     font-weight: 400;
     color: #666666;
@@ -127,6 +129,7 @@ const Text = styled.p`
     white-space: nowrap;
 `
 const TextCheckIn = styled.p`
+    font-family: 'Lexend Deca';
     font-size: 13px;
     font-weight: 400;
     color: #8FC549;
