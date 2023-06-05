@@ -54,12 +54,12 @@ export default function Habits() {
         e.preventDefault();
         console.log('foi');
         console.log(select);
-        setDisabled(true);
+       
         if (name.trim() === '') {
             alert('O campo não foi preenchido. Por favor, insira um nome para o hábito.');
             return;
         }
-
+        setDisabled(true);
         const create = {
             name: name,
             days: select
@@ -74,7 +74,7 @@ export default function Habits() {
        
 
         setTimeout ( ( )  =>  {
-            promise.then(() => setCreate(false), setUpdate(true), setDisabled(false));
+            promise.then(() => setCreate(false), setUpdate(true), setDisabled(false), setName(''), setSelect([]));
             promise.catch(erro => alert(erro.response.data.message), setDisabled(false));
         } ,  1000 ) ;
 
@@ -142,7 +142,7 @@ export default function Habits() {
                 {create && (
                     <BoxAdd onSubmit={send} data-test = "habit-create-save-btn">
                         <input type="text" placeholder="nome do hábito" value={name}
-                            onChange={(e) => setName(e.target.value)} disabled={disabled} required
+                            onChange={(e) => setName(e.target.value)} disabled={disabled} 
                             data-test="habit-name-input" />
                         <Word>
                             {days.map((day, i) => 
