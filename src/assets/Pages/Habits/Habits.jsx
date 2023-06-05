@@ -61,14 +61,10 @@ export default function Habits() {
             }
         }
         const promise = axios.post(url, create, settings);
-       
+        setTimeout(() => {
         promise.then(() => setCreate(false), setUpdate(true), setDisabled(false), setName(''), setSelect([]));
         promise.catch(erro => alert(erro.response.data.message), setDisabled(false));
-        
-
-        
-       
-       
+        }, 500);       
     }
 
     function clear(id) {
