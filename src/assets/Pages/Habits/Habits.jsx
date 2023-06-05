@@ -54,7 +54,7 @@ export default function Habits() {
         e.preventDefault();
         console.log('foi');
         console.log(select);
-
+        setDisabled(true);
         if (name.trim() === '') {
             alert('O campo não foi preenchido. Por favor, insira um nome para o hábito.');
             return;
@@ -71,11 +71,11 @@ export default function Habits() {
             }
         }
         const promise = axios.post(url, create, settings);
-        setDisabled(true);
+       
 
         setTimeout ( ( )  =>  {
             promise.then(() => setCreate(false), setUpdate(true), setDisabled(false));
-            promise.catch(erro => alert(erro.response.data.message));
+            promise.catch(erro => alert(erro.response.data.message), setDisabled(false));
         } ,  1000 ) ;
 
         
@@ -183,10 +183,9 @@ export default function Habits() {
                                 <div>
                                     {days.map((day, i) =>
                         
-                                        <div key={i} select={select} data-test="habit-day" onClick={(console.log(hab.days))} className={ marked.includes(hab.days) ? 'selected' : ''}
-                                        >
+                                        <LetterDay key={i} select={select} data-test="habit-day" onClick={(console.log(hab.days))} className={ marked.includes(hab.days) ? 'selected' : ''}>
                                             {day}
-                                        </div>
+                                        </LetterDay>
                                     )}
                                 </div>
                                 <img src={Lixeira} onClick={(() => (
